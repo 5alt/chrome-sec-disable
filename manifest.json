@@ -1,0 +1,30 @@
+{
+  "name": "Disable Browser Security",
+  "default_locale": "en",
+  "description": "__MSG_extDescription__",
+  "version": "1.0.0",
+  "author": "md5_salt",
+  "homepage_url": "https://github.com/5alt/chrome-security-disable",
+  "manifest_version": 2,
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "browsingData",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Browser security headers are enabled",
+    "default_icon": {
+      "16": "images/icon38-off.png"
+    }
+  },
+  "icons": {
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}
