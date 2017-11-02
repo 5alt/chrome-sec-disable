@@ -4,21 +4,29 @@ var isSecDisabled = false;
 
 var onHeadersReceived = function(details) {
   if (!isSecDisabled) {
-      return;
-  }
-
-  for (var i = 0; i < details.responseHeaders.length; i++) {
-    if ('content-security-policy' === details.responseHeaders[i].name.toLowerCase()) {
-      details.responseHeaders[i].value = '';
-    }else if ('x-frame-options' === details.responseHeaders[i].name.toLowerCase()) {
-      details.responseHeaders[i].value = 'allow-from: *';
-    }else if ('x-xss-protection' === details.responseHeaders[i].name.toLowerCase()) {
-      details.responseHeaders[i].value = '0';
-    }else if ('x-content-type-options' === details.responseHeaders[i].name.toLowerCase()) {
-      details.responseHeaders[i].value = 'sniff';
-    }else if ('x-permitted-cross-domain-policies' === details.responseHeaders[i].name.toLowerCase()) {
-      details.responseHeaders[i].value = 'all';
-    }
+      for (var i = 0; i < details.responseHeaders.length; i++) {
+        if ('content-security-policy' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = details.responseHeaders[i].value.replace('report-uri', 'nope').replace('report-to', 'nope');
+        }else if ('content-security-policy-report-only' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = details.responseHeaders[i].value.replace('report-uri', 'nope').replace('report-to', 'nope');
+        }
+      }
+  }else{
+      for (var i = 0; i < details.responseHeaders.length; i++) {
+        if ('content-security-policy' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = '';
+        }else if ('content-security-policy-report-only' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = '';
+        }else if ('x-frame-options' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = 'allow-from: *';
+        }else if ('x-xss-protection' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = '0';
+        }else if ('x-content-type-options' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = 'sniff';
+        }else if ('x-permitted-cross-domain-policies' === details.responseHeaders[i].name.toLowerCase()) {
+          details.responseHeaders[i].value = 'all';
+        }
+      }
   }
 
   return {
